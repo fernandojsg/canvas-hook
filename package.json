@@ -1,0 +1,19 @@
+{
+  "name": "canvas-hook",
+  "version": "0.1.0",
+  "description": "HTML Canvas Hook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandojsg/canvas-hook.git"
+  },
+  "author": "Fernando Serrano <fernandojsg@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fernandojsg/canvas-hook/issues"
+  },
+  "homepage": "https://github.com/fernandojsg/canvas-hook#readme"
+}
