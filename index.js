@@ -1,6 +1,5 @@
-//----------------------------------------------------------------------
-// Hook canvas.getContext
-//----------------------------------------------------------------------
+import FakeWebGL from './fake-webgl';
+
 var originalGetContext = HTMLCanvasElement.prototype.getContext;
 if (!HTMLCanvasElement.prototype.getContextRaw) {
     HTMLCanvasElement.prototype.getContextRaw = originalGetContext;
@@ -10,7 +9,7 @@ var enabled = false;
 
 export default {
   webglContext: null,
-  enable: function () {
+  enable: function (options) {
     if (enabled) {return;}
 
     var self = this;
@@ -18,6 +17,9 @@ export default {
       var ctx = originalGetContext.apply(this, arguments);
       if ((ctx instanceof WebGLRenderingContext) || (window.WebGL2RenderingContext && (ctx instanceof WebGL2RenderingContext))) {
         self.webglContext = ctx;
+        if (options.fakeWebGL) {
+          ctx = new FakeWebGL(ctx);
+        }
       }
       return ctx;    
     }
