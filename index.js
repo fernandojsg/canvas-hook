@@ -17,6 +17,12 @@ export default {
       var ctx = originalGetContext.apply(this, arguments);
       if ((ctx instanceof WebGLRenderingContext) || (window.WebGL2RenderingContext && (ctx instanceof WebGL2RenderingContext))) {
         self.webglContext = ctx;
+        if (options.width && options.height) {
+          this.width = options.width;
+          this.height = options.height;
+          this.style.cssText = 'width: ' + options.width + 'px; height: ' + options.height + 'px';
+        }
+
         if (options.fakeWebGL) {
           ctx = new FakeWebGL(ctx);
         }

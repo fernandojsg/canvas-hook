@@ -1,7 +1,7 @@
 const original = ['getParameter', 'getExtension', 'getShaderPrecisionFormat'];
 const emptyString = ['getShaderInfoLog', 'getProgramInfoLog'];
 const return1 = ['isBuffer', 'isEnabled', 'isFramebuffer', 'isProgram', 'isQuery', 'isVertexArray', 'isSampler', 'isSync', 'isTransformFeedback',
-'isRenderbuffer', 'isShader', 'isTexture', 'validateProgram'];
+'isRenderbuffer', 'isShader', 'isTexture', 'validateProgram', 'getShaderParameter'];
 const return0 = ['isContextLost', 'finish', 'flush', 'getError', 'endTransformFeedback', 'pauseTransformFeedback', 'resumeTransformFeedback',
 'activeTexture', 'blendEquation', 'clear', 'clearDepth', 'clearStencil', 'compileShader', 'cullFace', 'deleteBuffer',
 'deleteFramebuffer', 'deleteProgram', 'deleteRenderbuffer', 'deleteShader', 'deleteTexture', 'depthFunc', 'depthMask', 'disable', 'disableVertexAttribArray',
@@ -40,7 +40,8 @@ export default function FakeWebGL(gl) {
 			} else if (emptyString.indexOf(key) !== -1) {
 				this[key] = function(){return '';};
 			} else {
-				this[key] = function(){};
+				// this[key] = function(){};
+				this[key] = gl[key].bind(gl);
 			}
 		} else {
 			this[key] = gl[key];
