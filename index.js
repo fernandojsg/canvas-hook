@@ -8,7 +8,7 @@ if (!HTMLCanvasElement.prototype.getContextRaw) {
 var enabled = false;
 
 export default {
-  webglContext: null,
+  webglContexts: [],
   enable: function (options) {
     if (enabled) {return;}
 
@@ -16,7 +16,7 @@ export default {
     HTMLCanvasElement.prototype.getContext = function() {
       var ctx = originalGetContext.apply(this, arguments);
       if ((ctx instanceof WebGLRenderingContext) || (window.WebGL2RenderingContext && (ctx instanceof WebGL2RenderingContext))) {
-        self.webglContext = ctx;
+        self.webglContexts.push(ctx);
         if (options.width && options.height) {
           this.width = options.width;
           this.height = options.height;
@@ -29,7 +29,7 @@ export default {
       }
       return ctx;    
     }
-    enabled = true;
+    enabled = true;  
   },
 
   disable: function () {
