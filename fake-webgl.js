@@ -1,7 +1,7 @@
 const original = ['getParameter', 'getExtension', 'getShaderPrecisionFormat'];
 const emptyString = ['getShaderInfoLog', 'getProgramInfoLog'];
 const return1 = ['isBuffer', 'isEnabled', 'isFramebuffer', 'isProgram', 'isQuery', 'isVertexArray', 'isSampler', 'isSync', 'isTransformFeedback',
-'isRenderbuffer', 'isShader', 'isTexture', 'validateProgram', 'getShaderParameter'];
+'isRenderbuffer', 'isShader', 'isTexture', 'validateProgram', 'getShaderParameter', 'getProgramParameter'];
 const return0 = ['isContextLost', 'finish', 'flush', 'getError', 'endTransformFeedback', 'pauseTransformFeedback', 'resumeTransformFeedback',
 'activeTexture', 'blendEquation', 'clear', 'clearDepth', 'clearStencil', 'compileShader', 'cullFace', 'deleteBuffer',
 'deleteFramebuffer', 'deleteProgram', 'deleteRenderbuffer', 'deleteShader', 'deleteTexture', 'depthFunc', 'depthMask', 'disable', 'disableVertexAttribArray',
@@ -25,6 +25,13 @@ const return0 = ['isContextLost', 'finish', 'flush', 'getError', 'endTransformFe
 'copyTexSubImage3D', 'blitFramebuffer', 'texImage3D', 'compressedTexSubImage3D', 'texSubImage3D'];
 const nulls = [];
 
+// gl.INT = 5124
+const customFunctions = {
+	getActiveUniform: () => { return {name: "", size: 1, type: 5124}; },
+	getActiveAttrib: () => { return {name: "", size: 1, type: 5124}; }
+}
+
+
 export default function FakeWebGL(gl) {
 	this.gl = gl;
 	for (var key in gl) {
@@ -39,6 +46,8 @@ export default function FakeWebGL(gl) {
 				this[key] = function(){return 1;};
 			} else if (emptyString.indexOf(key) !== -1) {
 				this[key] = function(){return '';};
+			} else if (typeof customFunctions[key] !== 'undefined') {
+				this[key] = customFunctions[key].bind(gl);
 			} else {
 				// this[key] = function(){};
 				this[key] = gl[key].bind(gl);
