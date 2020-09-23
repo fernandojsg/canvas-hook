@@ -29,6 +29,17 @@ export default {
 
     return this.contexts[idx];
   },
+  getContextsByCanvasId: function(id, type) {
+    let contexts;
+    if (type === 'webgl') {
+      contexts = this.webglContexts;
+    } else if (type === '2d') {
+      contexts = this.canvas2dContexts;
+    } else {
+      contexts = this.contexts;
+    }
+    return contexts.filter(context => id === context.canvas.id);
+  },
   isWebGLContext: function(ctx) {
     return (ctx instanceof WebGLRenderingContext) || (window.WebGL2RenderingContext && (ctx instanceof WebGL2RenderingContext));
   },
